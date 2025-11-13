@@ -8,10 +8,13 @@ To write a program to predict the marks scored by a student using the simple lin
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. 
-2. 
-3. 
-4. 
+1. Import the standard Libraries.
+2. Set variables for assigning dataset values.
+3. Import linear regression from sklearn.
+4. Assign the points for representing in the graph.
+5. Predict the regression for marks by using the representation of the graph.
+6. Compare the graphs and hence we obtained the linear regression for the given datas.
+   
 
 ## Program:
 ```
@@ -21,9 +24,66 @@ Developed by:
 RegisterNumber:  
 */
 ```
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LinearRegression
+from sklearn.metrics import mean_squared_error, r2_score
+
+data = {
+    "Hours_Studied": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "Marks_Scored":  [35, 40, 50, 55, 60, 65, 70, 80, 85, 95]
+}
+df = pd.DataFrame(data)
+
+print ("Dataset:\n",df.head())
+df
+
+x = df[["Hours_Studied"]]   # Independent variable
+y = df["Marks_Scored"]      # Dependent variable
+
+x_train, x_test, y_train, y_test = train_test_split(
+    x, y, test_size=0.2, random_state=42
+
+)
+
+model= LinearRegression()
+model.fit(x_train, y_train)
+
+y_pred=model.predict(x_test)
+
+print("\nModel Parameteters:")
+print("Intercept (b0):", model.intercept_)
+print("slope (b1):", model.coef_[0])
+
+
+print("\nEvaluation Metrics:")
+print("Mean Squared Error:",mean_squared_error(y_test, y_pred))
+print("R^2 Score:",r2_score(y_test, y_pred))
+
+plt.figure(figsize=(8,6))
+plt.scatter(x, y, color='blue', label="Actual Data")
+plt.plot(x, model.predict(x), color='red', linewidth=2, label="Regression Line")
+plt.xlabel("Hours Studied")
+plt.ylabel("Marks Scored")
+plt.title("Simple Linear Regression: Predicting Marks")
+plt.legend()
+plt.grid(True)
+plt.show()
+
+
 
 ## Output:
 ![simple linear regression model for predicting the marks scored](sam.png)
+<img width="687" height="545" alt="image" src="https://github.com/user-attachments/assets/39a11659-df10-4ca6-80bf-faa4d0263099" />
+
+hours = 7.5
+predicted_marks = model.predict([[hours]])
+print(f"\nPredicted marks for {hours} hours of study = {predicted_marks[0]:.2f}")
+
+<img width="1253" height="108" alt="Screenshot 2025-11-13 092713" src="https://github.com/user-attachments/assets/2171ebd7-b617-4c65-aaee-0d55ea5efb43" />
+
 
 
 ## Result:
